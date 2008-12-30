@@ -1,0 +1,48 @@
+.. vim: ft=rst
+
+Set Game Simulator
+==================
+
+This provides a simple simulation engine for tweaking the parameters to the
+card game Set.  The basic premise is that there are a number of factors
+(color, shape, etc) on the card, and you try to find a set of 3 cards where
+for each factor, the three cards are either the same or different.  For
+example, this is a valid set::
+
+    (red, oval)
+    (red, diamond)
+    (red, squiggle)
+
+This one is as well::
+
+    (red, oval)
+    (green, diamond)
+    (blue, squiggle)
+
+I was curious whether the players I was with were finding all possible sets
+(as on average, we would encounter 2 no-sets-available situations per game).
+Experimentally this has been found to be ~1.6 with the computer playing, so
+I don't feel bad.
+
+Notes
+-----
+
+Any pair of cards is a legal match.  In this way it's a little similar to
+the sock drawer problem and a little less similar to the birthday paradox.
+
+Although it's possbile to simulate more than 3 factors, each factor only has
+3 options (so asking for sets of >3 is still impossible -- if this is needed
+just update ``pop()`` and provide more constants).
+
+Simulating impossible situations is very slow, especially as the deck gets
+larger, something like this as the worst bound::
+
+    deck_size = factor_opts ** num_factors
+    number_of_rounds ~= (deck_size - initial_cards_out) / cards_per_draw
+    each_round_check ~= O(cards_out ** set_size)    # actually much less
+
+While it can simulate a standard game (4 factors, 3 card sets) in 0.05s, it
+takes almost 6m to run a 5 factor, 5 card set game (with only 3 factor
+opts, with a 12 card initial draw and 3 card subsequent draws).
+
+.. _Set: http://www.setgame.com/set/
