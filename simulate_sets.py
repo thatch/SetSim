@@ -154,10 +154,12 @@ def play_a_game(deck):
     #f = find_a_set(c, 0, (0, 0, 0, 0), [], 0, 3)
     #print '\n'.join(map(repr, map(pprintcard, (c[i] for i in f))))
 
-def main(rounds=1, num_factors=4, board_size=12):
+def main(rounds=1, num_factors=4, board_size=12, set_size=3, draw_size=3):
     del factors[int(num_factors):]
-    global DESIRED_BOARD
+    global DESIRED_BOARD, SET_SIZE, DRAW_SIZE
     DESIRED_BOARD = int(board_size)
+    SET_SIZE = int(set_size)
+    DRAW_SIZE = int(draw_size)
 
     deck = list(cartesian([d.keys() for _, d in factors]))
     for i in range(int(rounds)):
