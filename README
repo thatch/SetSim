@@ -45,4 +45,19 @@ While it can simulate a standard game (4 factors, 3 card sets) in 0.05s, it
 takes almost 6m to run a 5 factor, 5 card set game (with only 3 factor
 opts, with a 12 card initial draw and 3 card subsequent draws).
 
+Future updates
+--------------
+
+We can reduce the O(n**3) check for matches to O(n**2) (or more generally,
+by one power of n) by deriving what the final card is.  The deck can be
+stored as a dict of (set value) -> [indexes], which allows us to quickly
+remove cards once they're chosen.
+
+The worst-case running bound is currently when there are consecutive no-set
+hands, causing draws.  In this case, one of the drawn cards must be
+involved (which makes it O(n) or so).  By adjusting the main set finder to
+find all sets, it reduces the redundancy of the main finder, then allows the
+O(n) check.  Other cards may need to be considered "new" through multiple
+iterations.
+
 .. _Set: http://www.setgame.com/set/
